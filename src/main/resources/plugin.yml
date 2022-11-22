@@ -1,0 +1,6 @@
+name: RandomThings
+version: '${project.version}'
+main: com.funnyboyroks.randomthings.RandomThings
+description: A collection of random things that add interesting aspects to the game.
+api-version: 1.19
+author: funnyboy_roks
