@@ -19,6 +19,8 @@ public class PluginConfig {
     public boolean twerkBonemeal;
     public boolean dispenserBreakBlocks;
     public boolean dispenserTillBlocks;
+    public boolean dispenserCauldrons;
+    public boolean movableAmethyst;
 
     public PluginConfig(RandomThings plugin) throws IOException {
         plugin.saveDefaultConfig();
@@ -36,6 +38,8 @@ public class PluginConfig {
         this.twerkBonemeal = config.getBoolean("twerk-bonemeal");
         this.dispenserBreakBlocks = config.getBoolean("dispenser-break-blocks");
         this.dispenserTillBlocks = config.getBoolean("dispenser-till-blocks");
+        this.dispenserCauldrons = config.getBoolean("dispenser-cauldrons");
+        this.movableAmethyst = config.getBoolean("movable-amethyst");
     }
 
     public void update() throws IOException {

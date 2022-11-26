@@ -10,17 +10,17 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Container;
+import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockFormEvent;
-import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -30,10 +30,7 @@ import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class Listeners implements Listener {
 
@@ -192,7 +189,7 @@ public class Listeners implements Listener {
                 }
             }
             if (!hasBlueIce) return;
-            if(toBlock.getRelative(BlockFace.DOWN).getType() != Material.SOUL_SAND) return;
+            if (toBlock.getRelative(BlockFace.DOWN).getType() != Material.SOUL_SAND) return;
 
             event.setCancelled(true);
 
@@ -225,7 +222,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onBlockForm(BlockFormEvent event) {
-        if(!RandomThings.config.renewableDeepslate) return;
+        if (!RandomThings.config.renewableDeepslate) return;
         if (event.getBlock().getLocation().getBlockY() < 0) {
             Material newMaterial = switch (event.getNewState().getType()) {
                 case COBBLESTONE -> Material.COBBLED_DEEPSLATE;
@@ -251,14 +248,15 @@ public class Listeners implements Listener {
     public void onPreDispense(BlockPreDispenseEvent event) {
         if (event.isCancelled()) return;
         ItemStack item = event.getItemStack();
-        Block facing = event.getBlock().getRelative(((Directional) event.getBlock().getBlockData()).getFacing());
+        BlockFace facingDirection = ((Directional) event.getBlock().getBlockData()).getFacing();
+        Block facing = event.getBlock().getRelative(facingDirection);
         if (
             item.getType().name().endsWith("_PICKAXE")
             || item.getType().name().endsWith("_SHOVEL")
             || item.getType().name().endsWith("_AXE")
             || item.getType() == Material.SHEARS
         ) {
-            if(!RandomThings.config.dispenserBreakBlocks) return;
+            if (!RandomThings.config.dispenserBreakBlocks) return;
             event.setCancelled(true);
             if (facing.getType().getHardness() == -1) return;
 
@@ -268,7 +266,7 @@ public class Listeners implements Listener {
             if (broken) applyDamage(item);
 
         } else if (item.getType().name().endsWith("_HOE")) {
-            if(!RandomThings.config.dispenserTillBlocks) return;
+            if (!RandomThings.config.dispenserTillBlocks) return;
             event.setCancelled(true);
             Material newType = switch (facing.getType()) {
                 case DIRT, GRASS_BLOCK -> Material.FARMLAND;
@@ -282,7 +280,102 @@ public class Listeners implements Listener {
             applyDamage(item);
 
 
+        } else if (item.getType().name().endsWith("BUCKET")) {
+            if (!RandomThings.config.dispenserCauldrons) return;
+
+            if (!facing.getType().name().endsWith("CAULDRON")) return;
+
+            switch (item.getType()) {
+                case WATER_BUCKET, LAVA_BUCKET, POWDER_SNOW_BUCKET, BUCKET -> event.setCancelled(true);
+                default -> {
+                    return;
+                }
+            }
+
+            Container c = (Container) event.getBlock().getState();
+            if (item.getType() == Material.BUCKET && facing.getType() != Material.CAULDRON) { // Bucket from cauldron
+                if (facing.getBlockData() instanceof Levelled l && l.getLevel() != l.getMaximumLevel()) {
+                    return;
+                }
+
+                item.setAmount(item.getAmount() - 1);
+                HashMap<Integer, ItemStack> overflow = c.getInventory().addItem(new ItemStack(switch (facing.getType()) {
+                    case WATER_CAULDRON -> Material.WATER_BUCKET;
+                    case LAVA_CAULDRON -> Material.LAVA_BUCKET;
+                    case POWDER_SNOW_CAULDRON -> Material.POWDER_SNOW_BUCKET;
+                    default -> Material.AIR;
+                }));
+                facing.setType(Material.CAULDRON);
+
+                if (!overflow.isEmpty()) {
+                    event.getBlock().getWorld().dropItemNaturally(
+                        event.getBlock().getLocation().clone().add(facingDirection.getDirection()),
+                        new ItemStack(overflow.get(0).getType())
+                    );
+
+                }
+
+            } else if (item.getType() != Material.BUCKET) {
+                facing.setType(switch (item.getType()) {
+                    case WATER_BUCKET -> Material.WATER_CAULDRON;
+                    case LAVA_BUCKET -> Material.LAVA_CAULDRON;
+                    case POWDER_SNOW_BUCKET -> Material.POWDER_SNOW_CAULDRON;
+                    default -> Material.AIR;
+                });
+
+
+                if (facing.getBlockData() instanceof Levelled l) {
+                    l.setLevel(l.getMaximumLevel());
+                    facing.setBlockData(l);
+                }
+
+                item.setAmount(item.getAmount() - 1);
+                HashMap<Integer, ItemStack> overflow = c.getInventory().addItem(new ItemStack(Material.BUCKET));
+
+                if (!overflow.isEmpty()) {
+                    event.getBlock().getWorld().dropItemNaturally(
+                        event.getBlock().getLocation().clone().add(facingDirection.getDirection()),
+                        new ItemStack(overflow.get(0).getType())
+                    );
+                }
+
+
+            }
+
+
         }
+    }
+
+    @EventHandler
+    public void onPistonPush(BlockPistonExtendEvent event) {
+        if (event.isCancelled()) return;
+
+        if (!RandomThings.config.movableAmethyst) return;
+
+        var blocksSet = Set.copyOf(event.getBlocks());
+        var dir = event.getDirection();
+
+        long pushSize = blocksSet.stream().filter(f -> f.getPistonMoveReaction() != PistonMoveReaction.BREAK || f.getType() == Material.BUDDING_AMETHYST).count();
+        if (pushSize > 12) {
+            event.setCancelled(true);
+            return;
+        }
+
+        for (var block : event.getBlocks()) {
+            var dest = block.getRelative(dir);
+            if (!blocksSet.contains(dest) && dest.getPistonMoveReaction() != PistonMoveReaction.BREAK && !dest.getType().isAir()) {
+                return;
+            }
+        }
+        var blocks = event.getBlocks().stream().map(b -> Map.entry(b.getType(), b)).toList();
+        Bukkit.getScheduler().runTaskLater(RandomThings.INSTANCE, () -> {
+            for (var block : blocks) {
+                var dest = block.getValue().getRelative(dir);
+                if (block.getKey() == Material.BUDDING_AMETHYST) {
+                    dest.setType(Material.BUDDING_AMETHYST);
+                }
+            }
+        }, 1);
     }
 
 }

@@ -68,3 +68,13 @@ the hoe.
 (Coarse Dirt -> Dirt)
 
 ![Image of Dispenser Till Blocks](./img/dispenser-till.png)
+
+### Dispensers Cauldrons
+
+When triggering a dispenser with a bucket facing a cauldron, it will work just like dispensers work without the cauldron by adding/removing the fluid in the cauldron
+
+### Movable Amethyst
+
+Budding Amethyst can be pushed by pistons (but not pulled)
+
+But be careful -- Pushing budding amethyst against a block will crush it and destroy it.
