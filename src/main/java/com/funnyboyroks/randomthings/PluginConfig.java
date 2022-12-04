@@ -13,6 +13,7 @@ public class PluginConfig {
     public boolean vacuumHoppers;
     public boolean renewableBlackstone;
     public boolean renewableDeepslate;
+    public boolean renewableAndesite;
     public boolean renewableSponges;
     public boolean silverFishDropGravel;
     public boolean rightClickHarvestCrops;
@@ -21,6 +22,9 @@ public class PluginConfig {
     public boolean dispenserTillBlocks;
     public boolean dispenserCauldrons;
     public boolean movableAmethyst;
+    public boolean magicMirror;
+    public boolean autoSaplings;
+    public boolean elevators;
 
     public PluginConfig(RandomThings plugin) throws IOException {
         plugin.saveDefaultConfig();
@@ -32,6 +36,7 @@ public class PluginConfig {
         this.vacuumHoppers = config.getBoolean("vacuum-hoppers");
         this.renewableBlackstone = config.getBoolean("renewable-blackstone");
         this.renewableDeepslate = config.getBoolean("renewable-deepslate");
+        this.renewableAndesite = config.getBoolean("renewable-andesite");
         this.renewableSponges = config.getBoolean("renewable-sponges");
         this.silverFishDropGravel = config.getBoolean("silver-fish-drop-gravel");
         this.rightClickHarvestCrops = config.getBoolean("right-click-harvest-crops");
@@ -40,6 +45,9 @@ public class PluginConfig {
         this.dispenserTillBlocks = config.getBoolean("dispenser-till-blocks");
         this.dispenserCauldrons = config.getBoolean("dispenser-cauldrons");
         this.movableAmethyst = config.getBoolean("movable-amethyst");
+        this.magicMirror = config.getBoolean("magic-mirror");
+        this.autoSaplings = config.getBoolean("auto-saplings");
+        this.elevators = config.getBoolean("elevators");
     }
 
     public void update() throws IOException {

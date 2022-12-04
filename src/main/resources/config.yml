@@ -18,6 +18,10 @@ renewable-blackstone: false
 # but when below y=0, cobble generators make cobbled deepslate and stone generators make deepslate.
 renewable-deepslate: false
 
+# Andesite becomes renewable through stone generators on top of andesite.
+# If the block below a generated stone block is andesite, the stone will turn into andesite.
+renewable-andesite: false
+
 # Makes it such that when a lightning strike happens within 4 blocks of a guardian, it turns into an elder guardian.
 renewable-sponges: false
 
@@ -44,3 +48,14 @@ dispenser-cauldrons: false
 # Budding amethyst can be pushed by pistons (but not pulled)
 # Be careful -- budding amethyst can be crushed by pushing it into a block
 movable-amethyst: false
+
+# Magic mirrors made from combining an ender pearl, a compass, and 16 levels in an anvil can be used
+# to teleport to the player's respawn location.
+magic-mirror: false
+
+# Sapling/Propagule items dropped on grass or dirt for 5-15 seconds will place the sapling on the ground
+auto-saplings: false
+
+# Elevators are made by placing an iron pressure plate on top of a wool block of any colour
+# When jumping/sneaking on an elevator, you will go up/down to the closest elevator of the same colour.
+elevators: false

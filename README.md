@@ -78,3 +78,13 @@ When triggering a dispenser with a bucket facing a cauldron, it will work just l
 Budding Amethyst can be pushed by pistons (but not pulled)
 
 But be careful -- Pushing budding amethyst against a block will crush it and destroy it.
+
+### Magic Mirror
+
+A magic mirror will teleport you home when thrown.  It can be crafted by combining an ender pearl, a compass, and 16 levels.
+
+![Image of Magic Mirror Crafting Recipe](./img/magic-mirror-craft.png)
+
+### Auto Sapling
+
+Saplings will automatically replant themselves after 5 to 15 seconds.
