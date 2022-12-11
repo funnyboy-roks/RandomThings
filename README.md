@@ -103,8 +103,8 @@ Saplings will automatically replant themselves after 5 to 15 seconds.
 
 ### Elevators
 
-Elevators can be made by placing a heavy weighted pressure plate (iron) on any colour of wool
-When jumping or sneaking, the player will be teleported up or down to the nearest elevator.
+Elevators can be made by placing a heavy weighted pressure plate (iron) on any colour of wool  
+When jumping or sneaking, the player will be teleported up or down to the nearest elevator.  
 *Note: Elevators will only connect to those of the same colour.*
 
 ![Image of Elevators](./img/elevators.png)
