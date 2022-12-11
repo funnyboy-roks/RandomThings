@@ -29,6 +29,12 @@ cobbled deepslate or deepslate are made respectively.
 
 ![Image of Renewable Deepslate](./img/deepslate-generation.png)
 
+### Renewable Andesite
+
+When stone is generated on top of an andesite block, it will generate andesite.
+
+![Image of Renewable Deepslate](./img/renewable-andesite.png)
+
 ### Renewable Sponges
 
 Makes lightning cause guardians withing 4 blocks convert to elder guardians in order to get renewable sponges.
@@ -73,11 +79,15 @@ the hoe.
 
 When triggering a dispenser with a bucket facing a cauldron, it will work just like dispensers work without the cauldron by adding/removing the fluid in the cauldron
 
+![Image of Dispenser Cauldrons](./img/dispenser-cauldrons.png)
+
 ### Movable Amethyst
 
 Budding Amethyst can be pushed by pistons (but not pulled)
 
 But be careful -- Pushing budding amethyst against a block will crush it and destroy it.
+
+![Image of Movable Amethyst](./img/movable-amethyst.png)
 
 ### Magic Mirror
 
@@ -88,3 +98,13 @@ A magic mirror will teleport you home when thrown.  It can be crafted by combini
 ### Auto Sapling
 
 Saplings will automatically replant themselves after 5 to 15 seconds.
+
+![Image of Auto Sapling](./img/auto-sapling.png)
+
+### Elevators
+
+Elevators can be made by placing a heavy weighted pressure plate (iron) on any colour of wool
+When jumping or sneaking, the player will be teleported up or down to the nearest elevator.
+*Note: Elevators will only connect to those of the same colour.*
+
+![Image of Elevators](./img/elevators.png)
