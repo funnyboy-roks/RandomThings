@@ -11,6 +11,8 @@ public class PluginConfig {
     private final File configFile;
 
     public boolean vacuumHoppers;
+    public int vacuumRadius;
+    public boolean radiusIsChunks;
     public boolean renewableBlackstone;
     public boolean renewableDeepslate;
     public boolean renewableAndesite;
@@ -34,6 +36,8 @@ public class PluginConfig {
         FileConfiguration config = plugin.getConfig();
 
         this.vacuumHoppers = config.getBoolean("vacuum-hoppers");
+        this.vacuumRadius = config.getInt("vacuum-radius", 5);
+        this.radiusIsChunks = config.getBoolean("radius-is-chunks", false);
         this.renewableBlackstone = config.getBoolean("renewable-blackstone");
         this.renewableDeepslate = config.getBoolean("renewable-deepslate");
         this.renewableAndesite = config.getBoolean("renewable-andesite");

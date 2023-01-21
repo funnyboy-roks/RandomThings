@@ -6,7 +6,7 @@
 
     <groupId>com.funnyboyroks</groupId>
     <artifactId>RandomThings</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
     <packaging>jar</packaging>
 
     <name>RandomThings</name>

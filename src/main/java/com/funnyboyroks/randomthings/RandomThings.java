@@ -4,6 +4,7 @@ import com.funnyboyroks.randomthings.events.DispenserEvents;
 import com.funnyboyroks.randomthings.events.GeneralEvents;
 import com.funnyboyroks.randomthings.events.PlayerEvents;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -13,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public final class RandomThings extends JavaPlugin {
@@ -65,7 +68,22 @@ public final class RandomThings extends JavaPlugin {
                     0
                 );
 
-                entity.getNearbyEntities(5, 5, 5)
+                int radius = RandomThings.config.vacuumRadius;
+
+                List<Entity> entities;
+
+                if (RandomThings.config.radiusIsChunks) {
+                    entities = new ArrayList<>();
+                    Chunk centre = entity.getChunk();
+                    for (int z = -radius; z <= radius; ++z) {
+                        for (int x = -radius; x <= radius; ++x) {
+                            entities.addAll(List.of(centre.getWorld().getChunkAt(centre.getX() + x, centre.getZ() + z).getEntities()));
+                        }
+                    }
+                } else {
+                    entities = entity.getNearbyEntities(radius, radius, radius);
+                }
+                entities
                     .stream()
                     .filter(e -> e instanceof Item)
                     .forEach(i -> {

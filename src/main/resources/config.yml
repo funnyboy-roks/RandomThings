@@ -10,6 +10,16 @@
 #     It just places the items on top of the hopper, so the hopper speed is still important to keep in mind.
 vacuum-hoppers: false
 
+# Radius for the vacuum hopper (chunks or blocks decided by `radius-is-chunks`)
+vacuum-radius: 5
+
+# If the vacuum-radius should be counted as chunks or blocks
+# Notes:
+#     If set to true, all entities in the chunk will be teleported (from the bottom of the world to the top)
+#     The radius is counted from the current chunks, so the width of the square area is 2n + 1 where n is the radius provided above
+#     A radius of 0 makes it a 1x1 chunk area
+radius-is-chunks: false
+
 # Makes blackstone renewable via lava spreading to a block adjacent to blue ice on top of soul sand.
 # Similarly to basalt, but with soul sand rather than soul soil.
 renewable-blackstone: false
